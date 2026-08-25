@@ -1,0 +1,8 @@
+const assert=require('assert');const{StriveXProtocol}=require('../lib/strivex-protocol');
+function harness(){const sent=[],starts=[],denies=[];const p=new StriveXProtocol({sendLine:x=>{sent.push(x);return true}});p.on('start',x=>starts.push(x));p.on('deny',x=>denies.push(x));p.setConnected(true);return{p,sent,starts,denies}}
+{const{p,sent,starts}=harness();p.feed('STA');p.feed('RT:s1\r\n');assert.equal(starts.length,1);p.feed('START:s1\nSTART:s1\nBROKEN\n');assert.equal(starts.length,1);p.result(850,{level_reached:7,note:'one\nline'});p.result(999);assert.equal(sent.filter(x=>x.startsWith('RESULT:')).length,1);assert(!sent.at(-1).includes('\n'));assert.equal(p.state,'idle');p.feed('START:s2\n');assert.equal(starts.length,2)}
+{const{p,starts,denies}=harness();p.feed('DENY:expired\n');assert.equal(starts.length,0);assert.equal(denies.length,1);assert.equal(p.state,'idle')}
+for(const[method,expected]of[['failed','FAILED'],['timeout','TIMEOUT']]){const{p,sent}=harness();p.feed(`START:${method}\n`);p[method]({fail_reason:'test'});p[method]({fail_reason:'again'});assert.equal(sent.filter(x=>x.startsWith(expected)).length,1)}
+{const{p,sent,starts}=harness();p.feed('START:a\nDENY:expired\nSTART:b\n');assert.equal(starts.length,2);assert(sent.some(x=>x.startsWith('FAILED:')))}
+{const{p,sent}=harness();const states=[];p.on('status',s=>states.push(s.state));p.feed('START:error-case\n');p.error('sensor disconnected\nunsafe');assert.equal(sent.filter(x=>x.startsWith('ERROR:')).length,1);assert(states.includes('finishing'));assert(states.includes('error'));assert.equal(p.state,'idle')}
+console.log('StriveX protocol tests passed.');

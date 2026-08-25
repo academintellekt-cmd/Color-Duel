@@ -1,0 +1,23 @@
+{
+  "attractionName":"COLOR DUEL",
+  "controlDisplayIndex":"primary",
+  "playerDisplayIndex":"secondary",
+  "controlOrientation":"auto",
+  "kiosk":true,
+  "language":"ru",
+  "durationOptionsMinutes":[1,2,3],
+  "countdownSeconds":3,
+  "gameOverSeconds":3,
+  "resultSeconds":5,
+  "leaderboardSeconds":5,
+  "combination":{"easy":5,"medium":6,"hard":7,"extreme":8,"roundPauseMs":650},
+  "rhythm":{"hitWindowMs":500,"hitEarlyMs":120,"hitLateMs":250,"boostHits":30,"boostDurationMs":7000,"minNotes":3,"maxNotes":5,"chordChance":0.30,"tripleChance":0.10,"soloSeconds":1,"travelMs":1800,"gapMs":650,"difficulty":{"easy":{"minNotes":3,"maxNotes":4,"travelMs":2200,"gapMs":850},"medium":{"minNotes":4,"maxNotes":6,"travelMs":1800,"gapMs":650},"hard":{"minNotes":6,"maxNotes":8,"travelMs":1450,"gapMs":480,"chordChance":0.38},"extreme":{"minNotes":8,"maxNotes":11,"travelMs":1150,"gapMs":330,"chordChance":0.48,"tripleChance":0.18}}},
+  "pingPong":{"cycleMs":1500,"hitWindowMs":250,"missAnimationMs":450,"boostHits":15,"boostDurationMs":7000,"difficulty":{"easy":{"lanesPerPlayer":1,"maxSpeedMultiplier":2},"medium":{"lanesPerPlayer":1,"maxSpeedMultiplier":2.5},"hard":{"lanesPerPlayer":2,"maxSpeedMultiplier":2},"extreme":{"lanesPerPlayer":2,"maxSpeedMultiplier":2.5}}},
+  "colorRing":{"projectileMs":950,"startRadius":0.18,"maxRadius":0.48,"growth":0.006,"ballRadius":0.0384,"radiusTransitionMs":850,"launchCooldownMs":500,"insertAnimationMs":360,"removeAnimationMs":420,"centralNormalMs":3000,"centralBuffMs":15000,"centralProjectileMs":800,"boostDurationMs":7000,"difficulty":{"easy":{"rotationMs":5000},"medium":{"rotationMs":4000},"hard":{"rotationMs":3000}}},
+  "ledSerial":{"enabled":true,"port":"auto","baudRate":9600,"identity":"COLOR_DUEL_LED","commandIntervalMs":30,"reconnectMs":3000},
+  "sensorSerial":{"enabled":true,"port":"auto","baudRate":115200,"identity":"COLOR_DUEL_SENSORS","reconnectMs":3000},
+  "sensor":{"threshold":1200,"debounceMs":90},
+  "audio":{"enabled":true,"menuPlaylistFolder":"music/menu","gamePlaylistFolders":{"combination":"music/games/combination","rhythm":"music/games/rhythm","pingPong":"music/games/ping-pong","colorRing":"music/games/color-ring"},"colorRingLaunchFolders":{"blue":"music/effects/color-ring/blue-launch","orange":"music/effects/color-ring/orange-launch"},"colorRingRemovalFolder":"music/effects/color-ring/remove","musicVolume":0.35,"effectsVolume":0.7,"fadeMs":1000,"bonus":"music/bonus.mp3","pingPongHit":"music/bap.mp3","pingPongMiss":"music/loos.mp3","countdown":"music/countdown.mp3","startCountdown":"music/countdown1.mp3","end":"music/end.mp3","colors":{"red":"music/red.mp3","green":"music/green.mp3","blue":"music/blue.mp3","yellow":"music/yellow.mp3"}},
+  "strivex":{"enabled":true,"transport":"websocket","wsHost":"127.0.0.1","wsPort":4210,"developmentMode":false},
+  "offline":{"enabled":false,"playerNames":["Player 1","Player 2"],"leaderboardSize":10}
+}
