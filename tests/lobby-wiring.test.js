@@ -13,4 +13,8 @@ assert(app.includes('finishToken')&&app.includes('if(token!==countdownToken)retu
 assert(!app.includes('${state.names[')&&!app.includes('${r.name}'),'names are escaped');
 assert(control.includes('lobby.css')&&control.includes('../lib/lobby-options.js')&&control.includes('lobby.js'));
 assert(player.includes('../lib/lobby-options.js'));
+const esBody=app.split(/\r?\n/).find(l=>l.startsWith('function endSession('))||'';
+assert(esBody.includes('clearTimeout(roundTimer)')&&esBody.includes("audio?.crossfade('menu')"),'endSession stops round timer and music');
+assert(/if\(state\.sessionId\)\s*\{?\s*api\.strivexFinal/.test(esBody),'final report guarded by sessionId');
+assert(app.split("state.scores=[0,0];state.errors=[0,0];state.accuracy=[0,0];state.phase='ready'").length-1>=2,'ready starts from a clean score');
 console.log('lobby wiring tests passed');
