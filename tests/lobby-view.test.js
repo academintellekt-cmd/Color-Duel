@@ -27,7 +27,7 @@ assert(html.includes('ЦВЕТОВОЕ КОЛЬЦО · СЛОЖНЫЙ · 2 МИ�
 html=L.html(view({players:two,session:true,remainingSec:125}));
 assert(!html.includes('data-lobby-remove'));
 assert(html.includes('data-action="end"')&&html.includes('Завершить'));
-assert(!html.includes('data-action="leaders"'));
+assert(html.includes('data-action="leaders"'),'Records opens the leaderboard during a session');
 assert(html.includes('2:05'));
 assert(!/data-lobby-start[^>]*disabled/.test(html),'session start is enabled');
 html=L.html(view({overlay:{type:'denied',reason:'offline'}}));
@@ -45,4 +45,10 @@ assert(html.includes('Нет связи с Gateway'));
 html=L.html(view({players:two,startDenied:'not_enough_players'}));
 assert(html.includes('Ждём второго игрока'));
 for(const lang of['ru','en','de','fr','zh','ja']){const s=L.strings(lang);for(const key of Object.keys(L.strings('en')))assert(s[key],`${lang}.${key}`)}
+assert.strictEqual(L.enterHtml('ru'),'<div class="lobby-enter" data-lobby-enter role="status"><b>Входите</b></div>','enter call markup');
+assert(L.enterHtml('en').includes('Come in'),'enter call is localized');
+html=L.html(view({overlay:{type:'denied',reason:'unregistered'}}));
+assert(html.includes('Данный браслет не найден в системе. Обратитесь к администратору.'),'Lava Jump wording for an unknown wristband');
+html=L.html(view({session:true}));
+assert(html.includes('data-action="leaders"')&&html.includes('Рекорды'),'session shows Records next to Finish');
 console.log('lobby-view tests passed');
