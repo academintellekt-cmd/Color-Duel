@@ -58,6 +58,7 @@ button.lobby-row.lobby-pick{width:100%}
 .lobby-start span{display:inline-block;margin-left:2vw;font-weight:400}
 .lobby-start.ready{border-color:#ff5a6a;background:linear-gradient(180deg,#ff2b45,#c8102e);color:#fff;box-shadow:0 1svh 3vw #fe112e55}
 .lobby-start:disabled{cursor:default}
+.lobby-launch-actions{display:grid;grid-template-columns:1fr 1fr;gap:2vw;width:100%}
 .lobby-finish{width:100%;min-height:5svh;border:1px solid var(--lb-line);border-radius:2vw;background:var(--lb-surface-2);font-size:3.4vw;font-weight:700}
 .lobby-tap{display:flex;flex-direction:column;align-items:center;gap:0;font-size:3vw;font-weight:700;color:var(--lb-orange)}
 .lobby-tap span{font-size:4vw;line-height:1;font-weight:300}
@@ -72,3 +73,9 @@ button.lobby-row.lobby-pick{width:100%}
 
 /* Color-Duel: rules modal lists the mode's steps. */
 .lobby-modal-box ol{margin:0 0 2svh;padding-left:5vw;text-align:left;font-size:2.8vw;line-height:1.35;color:#d7dbe2}
+
+/* Lava Jump call to enter: full screen for 10 s after a successful START. */
+.lobby-enter{position:fixed;inset:0;z-index:1000;display:grid;place-items:center;background:#1c1c1e;color:#fe7800;cursor:pointer;animation:lobby-enter-in .25s ease-out}
+.lobby-enter b{font-size:clamp(56px,11vw,140px);font-weight:800;letter-spacing:.01em}
+@keyframes lobby-enter-in{from{opacity:0}to{opacity:1}}
+@media (prefers-reduced-motion:reduce){.lobby-enter{animation:none}}

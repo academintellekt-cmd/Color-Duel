@@ -17,4 +17,9 @@ const esBody=app.split(/\r?\n/).find(l=>l.startsWith('function endSession('))||'
 assert(esBody.includes('clearTimeout(roundTimer)')&&esBody.includes("audio?.crossfade('menu')"),'endSession stops round timer and music');
 assert(/if\(state\.sessionId\)\s*\{?\s*api\.strivexFinal/.test(esBody),'final report guarded by sessionId');
 assert(app.split("state.scores=[0,0];state.errors=[0,0];state.accuracy=[0,0];state.phase='ready'").length-1>=2,'ready starts from a clean score');
+assert(app.includes("if(e.type==='unlock'){startGateway(e);if(gatewayActive)showEnterCall()}"),'a started session shows the enter call');
+assert(app.includes('syncEnterCall();'),'render closes the enter call once the phase moves on');
+assert(app.includes('ENTER_CALL_MS=10000')&&app.includes('setTimeout(hideEnterCall,ENTER_CALL_MS)'),'enter call lasts 10 s');
+assert(app.includes("action==='leaders'){state.manualLeaders=true;state.phase='leaderboard'}"),'Records opens the leaderboard from the lobby');
+assert(app.includes("action==='leaders-back'){state.manualLeaders=false;state.phase='lobby'}"),'back returns to the lobby');
 console.log('lobby wiring tests passed');
