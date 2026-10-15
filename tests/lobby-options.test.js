@@ -1,0 +1,15 @@
+const assert=require('assert');
+const O=require('../lib/lobby-options');
+const D=[3,1,2];
+assert.deepStrictEqual(O.LOBBY_MODES,['combination','rhythm','pingPong','colorRing']);
+for(const m of['combination','rhythm','pingPong'])assert.deepStrictEqual(O.modeOptions(m,D),{difficulties:['easy','medium','hard','extreme'],durations:[1,2,3]},m);
+assert.deepStrictEqual(O.modeOptions('colorRing',D),{difficulties:['easy','medium','hard'],durations:[1,2,3]});
+assert.deepStrictEqual(O.defaultSelection('pingPong',D),{mode:'pingPong',variant:null,difficulty:'easy',durationMinutes:1});
+assert.strictEqual(O.defaultSelection('colorRing',[]).durationMinutes,1);
+const sel=O.defaultSelection('combination',D);
+assert.deepStrictEqual(O.canStart(sel,[{uid:'A'}],2,false),{ok:false,reason:'needPlayers'});
+assert.deepStrictEqual(O.canStart(sel,[{uid:'A'},{uid:'B'}],2,false),{ok:true,reason:null});
+assert.deepStrictEqual(O.canStart(sel,[],2,true),{ok:true,reason:null});
+const names={modes:{combination:'ЦВЕТОВАЯ КОМБИНАЦИЯ',rhythm:'РИТМ-ДУЭЛЬ',pingPong:'ПИНГ-ПОНГ',colorRing:'ЦВЕТОВОЕ КОЛЬЦО'},difficulties:{easy:'ЛЁГКИЙ',medium:'СРЕДНИЙ',hard:'СЛОЖНЫЙ',extreme:'ЭКСТРИМ'},minute:'МИН'};
+assert.strictEqual(O.selectionLabel({mode:'rhythm',variant:null,difficulty:'hard',durationMinutes:2},names),'РИТМ-ДУЭЛЬ · СЛОЖНЫЙ · 2 МИН');
+console.log('lobby-options tests passed');
