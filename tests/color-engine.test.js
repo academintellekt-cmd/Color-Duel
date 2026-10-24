@@ -11,7 +11,6 @@ for (let iteration = 0; iteration < 300; iteration++) {
   match.target.forEach(x => counts[x.color] = (counts[x.color] || 0) + 1);
   assert(Math.max(...Object.values(counts)) <= 2, 'A color occurred more than twice');
   match.target.forEach(item => {
-    const order = ['off', 'red', 'blue', 'green', 'yellow', 'purple'];
     while (game.entries[0][item.position - 1] !== item.color) game.cycle(0, item.position);
   });
   const result = game.evaluateMatch();
@@ -51,7 +50,7 @@ console.log('Color modes passed 300 consistency iterations.');
   assert(!blue.target.some(x=>x.position===8),'button 8 must be reserved for confirmation');
   assert(!orange.target.some(x=>x.position===8),'button 8 must be reserved for confirmation');
   assert.notDeepStrictEqual(blue.target,orange.target,'players must receive independent patterns');
-  for(const item of blue.target){const order=['off','red','blue','green','yellow','purple'];while(game.entries[0][item.position-1]!==item.color)game.cycle(0,item.position)}
+  for(const item of blue.target){while(game.entries[0][item.position-1]!==item.color)game.cycle(0,item.position)}
   const result=game.evaluateMatch(0);
   assert(result.correct===true&&result.scores[0]===1&&result.scores[1]===0,'only the confirmed player should be scored');
 }
