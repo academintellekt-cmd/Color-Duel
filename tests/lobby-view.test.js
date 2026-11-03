@@ -51,4 +51,14 @@ html=L.html(view({overlay:{type:'denied',reason:'unregistered'}}));
 assert(html.includes('Данный браслет не найден в системе. Обратитесь к администратору.'),'Lava Jump wording for an unknown wristband');
 html=L.html(view({session:true}));
 assert(html.includes('data-action="leaders"')&&html.includes('Рекорды'),'session shows Records next to Finish');
+// Lobby profile window.
+const duo=[{uid:'A',name:'Алекс',avatar:'X1'},{uid:'B',name:'Мира',avatar:'X2'}];
+html=L.html(view({players:duo}));
+assert(html.includes('data-lobby-profile="A"')&&html.includes('data-lobby-profile="B"'),'player cards open the profile');
+const data={username:'Алекс',level:2,xp_in_level:60,needed_xp:400,time_started:false,remaining_seconds:300,records:[{mode_id:'rhythm',level_id:'extreme:3',best_score:57}],recent:[]};
+html=L.html(view({players:duo,overlay:{type:'profile',uid:'A',state:'ready',data}}));
+assert(html.includes('Уровень 2')&&html.includes('5:00')&&html.includes('время пойдёт с первой игры'),'level and not-started time');
+assert(html.includes('РИТМ-ДУЭЛЬ · ЭКСТРИМ · 3 МИН'),'records name mode, difficulty and time');
+html=L.html(view({players:duo,session:true,overlay:{type:'profile',uid:'A',state:'loading'}}));
+assert(html.includes('Загружаем профиль')&&!html.includes('data-lobby-profile-remove'),'loading; no removing during a paid session');
 console.log('lobby-view tests passed');
