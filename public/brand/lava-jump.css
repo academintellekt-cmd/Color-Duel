@@ -1,0 +1,32 @@
+@import url('./tokens.css');
+
+/* Lava Jump brand layer, after lava-jump game-modules/lightning brand/lightning.css. Loaded last.
+   Chrome only: blue/orange stay as player colours (they match the physical sides), ring and note colours keep their meaning. */
+html body { background: var(--bg) !important; color: var(--white); font-family: var(--font-body); }
+body .screen { background: var(--bg) !important; }
+body .brand { font-family: var(--font-display) !important; font-weight: 700 !important; font-style: normal !important; color: var(--white) !important; letter-spacing: 0 !important; text-shadow: none !important; }
+body :is(h1,h2,h3):not(:is(.lobby-screen,.cab-screen) *) { font-family: var(--font-display); font-weight: 700; letter-spacing: 0; text-shadow: none; }
+body :is(button,input,select) { font-family: var(--font-body); }
+
+body .btn { background: var(--gold) !important; border-color: var(--gold) !important; color: var(--ink) !important; border-radius: 0 !important; font-weight: 600; letter-spacing: 0; box-shadow: none !important; }
+body .btn:hover:not(:disabled) { background: #ef780d !important; }
+body .btn.orange { background: transparent !important; border-color: #64646b !important; color: var(--white) !important; }
+body :is(.back,.quit) { border: 1px solid #64646b !important; border-radius: 0 !important; background: transparent !important; color: var(--white) !important; box-shadow: none !important; }
+body .help-btn { border-radius: 0; border-color: #64646b; background: transparent; color: var(--gold); }
+
+body :is(.player,.player.blue,.rhythm-score,.scores>div,.help-panel,.info-card,.mode) { border-radius: 0 !important; background: var(--surface) !important; box-shadow: none !important; }
+/* The rhythm field keeps its striped background: the stripes mark the lanes. */
+body :is(.ping-field,.ring-field) { border-color: var(--line) !important; border-radius: 0 !important; background: var(--surface) !important; }
+body .rhythm-field { border-radius: 0 !important; }
+body .timer { color: var(--gold) !important; text-shadow: none !important; }
+body :is(.timer,.countdown,.gameover,.player b,.rhythm-score b,.scores b) { font-family: var(--font-display); font-weight: 700; font-variant-numeric: tabular-nums; text-shadow: none; }
+body .countdown, body .gameover { color: var(--white); }
+body :is(.subtitle,.player span,.rhythm-score span,.scores span) { color: var(--muted); }
+body :is(th,td) { border-bottom-color: var(--line); }
+
+body .language-widget { background: var(--surface); border-radius: 0; }
+body .language-widget.open { border-color: var(--line); box-shadow: none; }
+body .language-widget button { border-radius: 0; }
+body .language-widget button.selected { background: var(--surface-2); }
+
+body :is(button,a):focus-visible { outline: 2px solid var(--gold); outline-offset: 4px; }
