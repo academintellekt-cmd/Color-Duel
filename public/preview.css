@@ -1,0 +1,53 @@
+/* Loaded by both windows; these rules apply only to the explicitly enabled preview. */
+.preview-tools{position:relative;z-index:2000;font:13px/1.35 'Segoe UI',Arial,sans-serif;color:#eef6ff}
+.preview-badge{position:fixed;z-index:2001;bottom:6px;left:50%;transform:translateX(-50%);padding:4px 10px;border-radius:8px;background:#ffd21a;color:#171717;font-size:10px;font-weight:800;letter-spacing:.08em;pointer-events:none;white-space:nowrap}
+.preview-panel{position:fixed;right:10px;top:10px;width:min(266px,calc(100vw - 20px));max-height:calc(100vh - 45px);overflow:auto;padding:12px;border:1px solid #73d7ff88;border-radius:16px;background:#020813f2;box-shadow:0 8px 32px #0008;scrollbar-width:thin}
+.preview-tools [hidden]{display:none!important}
+.preview-panel header{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-bottom:6px}
+.preview-panel header b{color:#73d7ff;font-size:14px}
+.preview-tools button{font:600 12px 'Segoe UI',Arial,sans-serif;border:1px solid #ffffff33;border-radius:8px;background:#102033;color:#fff;cursor:pointer;min-height:30px;padding:5px 7px}
+.preview-tools button:hover{border-color:#73d7ff}
+.preview-panel small{display:block;color:#abb6c7;font-size:10px;margin:5px 0}
+.preview-grid{display:grid;grid-template-columns:1fr 1fr;gap:5px}
+.preview-panel label{display:grid;gap:5px;margin-top:8px;font-size:11px;color:#abb6c7}
+.preview-panel select{width:100%;padding:7px 4px;background:#102033;color:#fff;border:1px solid #ffffff33;border-radius:8px;font:12px 'Segoe UI',Arial}
+.preview-run{width:100%;margin-top:7px;border-color:#73d7ff!important}
+.preview-hits{display:grid;gap:6px;margin:8px 0;font-size:11px}
+.preview-hits>div>div{display:flex;gap:6px;margin-top:4px}
+.preview-hits button{flex:1;background:var(--hit);min-height:24px}
+.preview-toggle{position:fixed;right:10px;top:10px;min-width:40px;min-height:40px!important;font-size:21px!important}
+.visual-preview .result-screen{gap:3vh;padding-top:12vh;text-align:center}
+.visual-preview .result-screen>.brand{font-size:clamp(30px,6vw,84px);white-space:nowrap}
+.visual-preview .result-screen h1{max-width:100%;font-size:clamp(22px,4vw,64px);overflow-wrap:anywhere;margin:0}
+.visual-preview .scores{gap:3vw;width:min(1100px,92vw)}
+.visual-preview .scores>div{min-width:0;padding:3vh 2vw;background:#050b13dd;font-size:clamp(18px,2.4vw,40px);overflow-wrap:anywhere}
+.visual-preview .scores b{font-size:clamp(48px,7vw,116px)}
+.visual-preview .scores span{font-size:clamp(20px,3vw,42px)}
+.visual-preview .leaders-screen{gap:2vh;padding:4vh 4vw;justify-content:flex-start}
+.visual-preview .leaders-screen>.brand{position:static;font-size:clamp(28px,6vw,80px);white-space:nowrap}
+.visual-preview .leaders-screen h1{font-size:clamp(18px,3.4vw,48px);text-align:center;margin:0}
+.visual-preview .leaders-table{width:100%;min-height:0;overflow:auto}
+.visual-preview .leaders-table table{width:100%;font-size:clamp(12px,2vw,30px)}
+.visual-preview .leaders-table th,.visual-preview .leaders-table td{padding:1.4vh 1vw;overflow-wrap:anywhere;max-width:30vw}
+.visual-preview .control-game>.brand{font-size:clamp(30px,10vw,110px);white-space:nowrap}
+.visual-preview .control-game h1{font-size:clamp(22px,5vw,64px);text-align:center}
+.visual-preview .control-game .timer{font-size:clamp(64px,16vw,170px)}
+.visual-preview .player-standby>.brand,.visual-preview .player-prestart>.brand{font-size:clamp(32px,10vw,160px);white-space:nowrap}
+.visual-preview .lobby-pick span{display:-webkit-box;-webkit-box-orient:vertical;-webkit-line-clamp:2;white-space:normal;font-size:min(2.65vw,2.2svh);line-height:1.15}
+.visual-preview button.lobby-row.lobby-pick{border:1px solid var(--lb-line);background:var(--lb-surface)}
+.visual-preview button.lobby-row.lobby-pick.active{border-color:var(--lb-orange);background:linear-gradient(90deg,#4a2a10,#2b2016)}
+.visual-preview .game:not(.rhythm-game):not(.ring-game) .player{padding:3vh 1vw;gap:1vh;min-width:0}
+.visual-preview .game .player span{max-width:100%;overflow-wrap:anywhere;text-align:center}
+.visual-preview .game .player b{font-size:clamp(54px,10vw,160px);line-height:1.1}
+.visual-preview .game .player em{height:6vh;font-size:clamp(20px,3vw,42px);line-height:1.1}
+.visual-preview .gameover-screen{isolation:isolate;overflow:hidden}
+.visual-preview .gameover-screen::before,.visual-preview .gameover-screen::after{content:'';position:absolute;z-index:-1;width:60vmin;height:60vmin;border:3px solid #1b9cff;border-radius:50%;box-shadow:0 0 70px #1b9cff66,inset 0 0 70px #1b9cff33;animation:color-duel-finish 1.8s ease-out both}
+.visual-preview .gameover-screen::after{border-color:#ff7a1a;box-shadow:0 0 70px #ff7a1a66,inset 0 0 70px #ff7a1a33;animation-delay:.15s}
+@keyframes color-duel-finish{from{transform:scale(.1);opacity:0}20%{opacity:1}to{transform:scale(2.3);opacity:0}}
+@media(prefers-reduced-motion:reduce){.visual-preview .gameover-screen::before,.visual-preview .gameover-screen::after{animation:none}}
+@media(max-aspect-ratio:4/5){
+  .visual-preview .scores{grid-template-columns:1fr;gap:2vh}
+  .visual-preview .scores>div{padding:2vh 4vw;font-size:5vw}
+  .visual-preview .scores b{font-size:14vw}
+  .visual-preview .result-screen>.brand{font-size:9vw}
+}
