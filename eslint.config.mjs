@@ -11,6 +11,9 @@ const pageGlobals = {
   SessionRecords: 'readonly',
   ColorDuelLobby: 'readonly',
   ColorDuelEngine: 'readonly',
+  ColorDuelPreview: 'readonly',
+  ColorDuelGamepad: 'readonly',
+  ColorDuelTechnician: 'readonly',
 };
 
 export default defineConfig([
@@ -41,5 +44,6 @@ export default defineConfig([
     rules: { 'no-unused-vars': ['error', { vars: 'local' }] },
   },
   // The file that declares a page global must not also see it as predefined.
+  { files: ['public/preview.js'], languageOptions: { globals: { ColorDuelPreview: 'off' } } },
   { files: ['public/audio-manager.js'], languageOptions: { globals: { LightningAudio: 'off' } } },
 ]);

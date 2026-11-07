@@ -17,3 +17,6 @@ archived_unused_audio/
 .DS_Store
 Thumbs.db
 
+
+# Generated interface verification screenshots
+visual-check/

@@ -9,6 +9,45 @@ test('boost activation is reported only on the hit that starts x2',()=>{const g=
 test('rhythm miss resets only that player streak',()=>{const g=new RhythmGame({durationMs:60000,rng:()=>.4});g.streaks=[12,9];g.miss(0);assert.deepEqual(g.streaks,[0,9])});
 test('x2 pauses streak accumulation until normal scoring resumes',()=>{const g=new RhythmGame({durationMs:60000,boostHits:3,boostDurationMs:7000,rng:()=>.4});g.award(0,0);g.award(0,10);assert.equal(g.award(0,20),2);for(let t=30;t<7000;t+=100)g.award(0,t);assert.equal(g.streaks[0],0);assert.equal(g.award(0,7020),1);assert.equal(g.streaks[0],1)});
 test('final second never awards invisible rhythm notes',()=>{const g=new RhythmGame({durationMs:60000,soloSeconds:1,rng:()=>.4});const before=g.scores[0];const result=g.hit(0,g.events.solo.colors[0],g.events.solo.start);assert.equal(result.ok,false);assert.equal(result.finalCountdown,true);assert.equal(g.scores[0],before)});
+const rhythmConfig=require('../config.json').rhythm;
+for(const [difficulty,limit]of Object.entries({easy:0,medium:.1,hard:.3,extreme:.6})){
+  test(`rhythm ${difficulty}: never three colors; pairs stay within ${limit*100}% each round`,()=>{
+    assert.equal(rhythmConfig.difficulty[difficulty].chordChance,limit);
+    for(const durationMs of[1000,6000,60000,120000,180000])for(let seed=1;seed<=20;seed++){
+      let value=seed;
+      const rng=()=>{value=(Math.imul(value,1664525)+1013904223)>>>0;return value/4294967296};
+      const g=new RhythmGame({...rhythmConfig,...rhythmConfig.difficulty[difficulty],durationMs,rng});
+      const notes=g.events.notes,pairs=notes.filter(n=>n.colors.length===2).length;
+      assert(pairs<=notes.length*limit,`${difficulty}: ${pairs} pairs / ${notes.length} events`);
+      if(limit>0&&durationMs>=60000)assert(pairs>0,'higher difficulties include pairs');
+      for(const n of notes){
+        assert(n.colors.length===1||n.colors.length===2);
+        assert.equal(new Set(n.colors).size,n.colors.length,'a pair has two different colors');
+        assert(n.colors.every(c=>COLORS.includes(c)));
+      }
+    }
+  });
+}
+test('rhythm chord limits hold even with adversarial RNG and legacy triple settings',()=>{
+  for(const random of[0,.999999])for(const limit of[0,.1,.3,.6]){
+    const g=new RhythmGame({durationMs:6000,travelMs:1000,gapMs:650,chordChance:limit,tripleChance:1,rng:()=>random});
+    const notes=g.events.notes;
+    assert(notes.filter(n=>n.colors.length===2).length<=notes.length*limit);
+    assert(notes.every(n=>n.colors.length<=2));
+    assert.equal(g.chord(3).length,2,'three-color chords are impossible');
+  }
+});
+test('rhythm pair accepts exactly two distinct colors at its target time',()=>{
+  const g=new RhythmGame({...rhythmConfig,...rhythmConfig.difficulty.extreme,rng:()=>0});
+  const e=g.events.notes.find(n=>n.colors.length===2);
+  assert(e);
+  assert.equal(g.hit(0,e.colors[0],e.time).chordComplete,false);
+  assert.equal(g.hit(0,e.colors[1],e.time).chordComplete,true);
+  assert.equal(g.scores[0],2);
+  const third=COLORS.find(c=>!e.colors.includes(c));
+  assert.equal(g.hit(0,third,e.time).ok,false);
+  assert.equal(g.scores[0],2);
+});
 test('ping pong launches only with the assigned racket color',()=>{const g=new PingPongGame({rng:()=>0});const ball=g.balls[0],wrong=COLORS.find(c=>c!==ball.racketColor);assert.equal(g.hit(0,wrong,0).ok,false);assert.equal(g.hit(0,ball.racketColor,10).launched,true)});
 test('ping pong awards a return only inside the racket window',()=>{const g=new PingPongGame({cycleMs:1500,hitWindowMs:200,rng:()=>0}),ball=g.balls[0],launchColor=ball.racketColor;g.hit(0,launchColor,0);const returnColor=ball.racketColor;assert.equal(g.hit(0,returnColor,1500).returnHit,true);assert.equal(g.scores[0],1)});
 test('missed ping pong ball dips below the racket before waiting with a new color',()=>{const g=new PingPongGame({cycleMs:1500,hitWindowMs:100,missAnimationMs:450,rng:()=>0}),ball=g.balls[0],launchColor=ball.racketColor;g.hit(0,launchColor,0);const returnColor=ball.racketColor;g.update(1601);assert.equal(ball.state,'miss');assert.ok(g.position(ball,1826)>1);g.update(2052);assert.equal(ball.state,'waiting');assert.notEqual(ball.racketColor,returnColor);assert.equal(g.errors[0],1)});
