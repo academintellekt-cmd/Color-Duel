@@ -5,7 +5,7 @@
   "scripts": {
     "start": "electron .",
     "lint": "eslint .",
-    "check": "eslint . && node --check main.js && node --check preload.js && node --check public/app.js && node --test tests/color-duel-engine.test.js tests/preview-gamepad.test.js tests/technician.test.js tests/device-protocol.test.js tests/strivex-session.test.js tests/demo-gateway.test.js tests/lobby-options.test.js tests/lobby-view.test.js tests/lobby-wiring.test.js tests/session-records.test.js tests/cabinet.test.js",
+    "check": "eslint . && node --check main.js && node --check preload.js && node --check public/app.js && node --test tests/color-duel-engine.test.js tests/preview-gamepad.test.js tests/technician.test.js tests/device-protocol.test.js tests/strivex-session.test.js tests/demo-gateway.test.js tests/lobby-options.test.js tests/lobby-view.test.js tests/lobby-wiring.test.js tests/session-records.test.js tests/cabinet.test.js tests/scan-route.test.js",
     "build": "electron-builder --win nsis",
     "design": "node scripts/start-design.js",
     "check:preview": "electron scripts/check-preview.js",
