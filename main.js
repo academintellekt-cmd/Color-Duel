@@ -86,20 +86,26 @@ function emit(channel, data) { controlWindow?.webContents.send(channel, data); }
 function setupStrivex(c) {
   const demo = !!(c.strivex.demoLobby && c.strivex.developmentMode);
   strivex = demo ? new DemoGateway({ paidSeconds: 300 }) : new StrivexSession({ host: '127.0.0.1', port: c.strivex.wsPort || 4210, game: 'color-duel', version: app.getVersion(), protocol: 1 });
-  for (const type of ['unlock', 'lock', 'expired', 'lobby', 'scan']) strivex.on(type, x => emit('strivex-event', { type, ...x }));
+  for (const type of ['unlock', 'lock', 'expired', 'lobby', 'scan', 'queue']) strivex.on(type, x => emit('strivex-event', { type, ...x }));
   strivex.on('tick', remainingMs => emit('strivex-event', { type: 'tick', remainingMs }));
   strivex.on('start-denied', x => emit('strivex-event', { type: 'start_denied', ...x }));
+  let lastQueue = null;
+  strivex.on('queue', x => { lastQueue = x; });
+  strivex.on('connection', x => { if (!x.connected) lastQueue = null; });
   strivex.on('connection', x => emit('strivex-status', { ...strivex.snapshot(), ...x }));
   strivex.on('listening', () => emit('strivex-status', strivex.snapshot()));
   strivex.on('error', e => emit('strivex-status', { ...strivex.snapshot(), error: e.message }));
   strivex.on('technician',message=>technician.gateway(message));
   strivex.on('profile',x=>emit('strivex-event',{type:'profile',...x}));strivex.on('avatar-saved',x=>emit('strivex-event',{type:'avatar_saved',...x}));strivex.start();
-  ipcMain.handle('strivex-snapshot', () => ({ ...strivex.snapshot(), enabled: c.strivex.enabled, developmentMode: c.strivex.developmentMode }));
+  ipcMain.handle('strivex-snapshot', () => ({ ...strivex.snapshot(), enabled: c.strivex.enabled, developmentMode: c.strivex.developmentMode, queue: lastQueue }));
   ipcMain.on('strivex-final', (_e, x) => strivex.reportResult(Number(x.number) || 0, x.status || 'completed', x.meta || {}));
   ipcMain.on('strivex-lobby', (_e, x) => {
     if (x?.type === 'start') strivex.lobbyStart({ mode: x.mode, variant: x.variant, difficulty: x.difficulty, durationMinutes: x.durationMinutes });
     else if (x?.type === 'remove') strivex.lobbyRemove(String(x.uid || ''));
     else if (x?.type === 'reset') strivex.lobbyReset();
+    else if (x?.type === 'queue_open' && typeof strivex.queueOpen === 'function') strivex.queueOpen();
+    else if (x?.type === 'queue_done' && typeof strivex.queueDone === 'function') strivex.queueDone();
+    else if (x?.type === 'queue_cancel' && typeof strivex.queueCancel === 'function') strivex.queueCancel();
     else if (x?.type === 'demo-reset' && previewMode) strivex.resetPreview?.();
     else if(x?.type==='profile'&&typeof strivex.requestProfile==='function')strivex.requestProfile(String(x.uid||''));else if(x?.type==='avatar_save'&&typeof strivex.saveAvatar==='function')strivex.saveAvatar(String(x.uid||''),x.avatar);else if(x?.type==='demo-tap' && demo) strivex.tap(String(x.code || ''));
   });
