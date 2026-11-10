@@ -116,10 +116,13 @@ button.lobby-row.lobby-pick{width:100%}
 /* Reserved: the names may wrap, so the call to tap a wristband is never clipped. */
 .lobby-queue.reserved .lobby-queue-info b{white-space:normal;overflow-wrap:anywhere}
 /* Outside the lobby (game, countdown, post-round screens) the strip sits above the bottom button row (stop / back / language), never over it. */
-.control-queue{position:absolute;left:4vw;right:4vw;bottom:calc(3vh + 76px);z-index:15;display:flex;flex-direction:column;gap:.8svh;color:var(--lb-text);font-family:'Involve','Inter','Segoe UI',Arial,sans-serif}
-.control-queue :where(button){font:inherit;color:inherit;cursor:pointer;-webkit-tap-highlight-color:transparent}
+.control-queue{position:absolute;left:4vw;right:4vw;bottom:calc(4vh + 80px);z-index:15;display:flex;flex-direction:column;gap:.8svh;color:var(--lb-text);font-family:'Involve','Inter','Segoe UI',Arial,sans-serif}
+/* zero specificity: keeps .lobby-queue-btn font-size and weight */
+:where(.control-queue button){font:inherit;color:inherit;cursor:pointer;-webkit-tap-highlight-color:transparent}
 .control-queue .lobby-queue{background:linear-gradient(90deg,#4a2a10f2,#2b2016f2)}
 .control-queue .lobby-queue.none{background:none}
 .lobby-queue-note{padding:.8svh 2vw;border-radius:1.6vw;background:#2b2016;font-size:2.8vw;text-align:center}
 .lobby-queue.none:has(.lobby-queue-note){padding:1svh 2vw;border:1px solid var(--lb-orange);background:#2b2016}
 .control-queue-note{padding:1svh 2vw;border:1px solid var(--lb-orange);border-radius:2vw;background:#2b2016f2;font-size:2.8vw;text-align:center}
+/* Landscape: vw sizes would make the panel ~150px of 540, so size by height. */
+@media (orientation:landscape){.control-queue .lobby-queue{padding:.6svh 1.5vw;gap:.5svh}.control-queue .lobby-queue-info,.control-queue .lobby-queue-slot,.control-queue-note{font-size:3svh}.control-queue .lobby-queue-btn{min-height:4.5svh;font-size:3svh}}

@@ -60,7 +60,7 @@ test('strip is hidden under the technician layer and follows the session/reserve
 });
 test('queue buttons send their commands',()=>{
   assert(app.includes("const QUEUE_ACTIONS={'queue-open':'queue_open','queue-done':'queue_done','queue-cancel':'queue_cancel'}"),'button -> command map');
-  assert(app.includes('else if(QUEUE_ACTIONS[b.dataset.action])api.striveXLobby({type:QUEUE_ACTIONS[b.dataset.action]})'),'queue buttons go to the Gateway');
+  assert(app.includes('else if(QUEUE_ACTIONS[b.dataset.action]&&!technicianOpen())api.striveXLobby({type:QUEUE_ACTIONS[b.dataset.action]})'),'queue buttons go to the Gateway');
   assert(app.indexOf('QUEUE_ACTIONS[b.dataset.action]')<app.indexOf("b.dataset.action==='quit'"),'checked before the quit/end handlers');
 });
 test('queue view is cleared when the Gateway connection drops',()=>{

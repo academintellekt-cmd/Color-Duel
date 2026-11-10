@@ -95,4 +95,10 @@ assert(html.includes('Загружаем профиль')&&!html.includes('data-
   html=L.html(view({queue:q({state:'waiting',players:[kim]})}));
   assert(html.includes('Прислони браслет'),'waiting keeps the usual call');
 }
+{
+  const css=require('fs').readFileSync(require('path').join(__dirname,'../public/lobby.css'),'utf8');
+  assert(css.includes(':where(.control-queue button){')&&!css.includes('.control-queue :where(button)'),'strip button reset has zero specificity');
+  assert(css.includes('.control-queue{position:absolute;left:4vw;right:4vw;bottom:calc(4vh + 80px)'),'strip sits above the back button (top at 4vh + 72px)');
+  assert(css.includes('@media (orientation:landscape){.control-queue .lobby-queue{'),'compact landscape strip');
+}
 console.log('lobby-view tests passed');
